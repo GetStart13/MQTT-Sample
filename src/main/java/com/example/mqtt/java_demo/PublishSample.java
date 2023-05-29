@@ -1,4 +1,4 @@
-package com.cubegalaxy.mqtt.java_demo;
+package com.example.mqtt.java_demo;
 
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;

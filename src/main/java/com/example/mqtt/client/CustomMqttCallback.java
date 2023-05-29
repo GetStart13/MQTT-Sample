@@ -1,4 +1,4 @@
-package com.cubegalaxy.mqtt.client;
+package com.example.mqtt.client;
 
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;

@@ -1,7 +1,8 @@
-package com.cubegalaxy.mqtt.client;
+package com.example.mqtt.client;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +27,14 @@ public class MqttController {
     @ResponseBody
     public synchronized void publishMqttMsg(@RequestBody Map<String, Object> mqttMsg) {
         log.info("receive publish message: {}", mqttMsg);
-        mqttService.publish(mqttMsg);
+        int qos = (int) mqttMsg.get("qos");
+        boolean retained = (boolean) mqttMsg.get("retained");
+        String topic = (String) mqttMsg.get("topic");
+        String msg = (String) mqttMsg.get("msg");
+        try {
+            mqttService.publish(qos, retained, topic, msg);
+        } catch (MqttException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

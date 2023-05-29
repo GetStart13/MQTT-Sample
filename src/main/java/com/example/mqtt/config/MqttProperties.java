@@ -1,4 +1,4 @@
-package com.cubegalaxy.mqtt.config;
+package com.example.mqtt.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -23,20 +23,20 @@ public class MqttProperties {
     /**
      * 用户名
      */
-    private String userName;
+    private String username;
 
     /**
      * 密码
      */
-    private String passWord;
+    private String password;
 
     /**
-     * 超时时间
+     * 超时时间 (s)
      */
-    private Integer timeOut;
+    private Integer timeout;
 
     /**
-     * 保活时间
+     * 保持存活时间间隔 (s)
      */
     private Integer keepAlive;
 

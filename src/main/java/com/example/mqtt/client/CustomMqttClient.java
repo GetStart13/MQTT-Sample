@@ -1,6 +1,6 @@
-package com.cubegalaxy.mqtt.client;
+package com.example.mqtt.client;
 
-import com.cubegalaxy.mqtt.config.MqttProperties;
+import com.example.mqtt.config.MqttProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttAsyncClient;
@@ -50,7 +50,7 @@ public class CustomMqttClient {
     /**
      * 功能描述: 客户端连接
      */
-    public void connect() {
+    public void connect() throws MqttException {
         if (mqttProperties == null) {
             throw new IllegalArgumentException("【mqtt异常】：连接失败，配置文件缺失。");
         }
@@ -63,31 +63,21 @@ public class CustomMqttClient {
             createClient();
         }
         // 当客户端未连接时，建立连接
-        while (!client.isConnected()) {
-            try {
-                IMqttToken token = client.connect(options);
-                // 等待连接操作完成
-                token.waitForCompletion();
-            } catch (Exception e) {
-                log.error("【mqtt异常】：mqtt连接失败，message = {}", e.getMessage());
-            }
-        }
+        IMqttToken token = client.connect(options);
+        // 等待连接操作完成
+        token.waitForCompletion();
     }
 
     /**
      * 功能描述: 创建 mqtt 客户端，加同步锁，防止创建多个客户端
      */
-    private synchronized void createClient() {
+    private synchronized void createClient() throws MqttException {
         if (client == null) {
-            try {
-                // host 为主机名，clientId 是连接 MQTT 的客户端 ID，MemoryPersistence 设置 clientId 的保存方式，默认是以内存方式保存
-                client = new MqttAsyncClient(mqttProperties.getHost(), mqttProperties.getClientId(), new MemoryPersistence());
-                // 设置回调函数
-                client.setCallback(mqttCallback);
-                log.info("【mqtt】：mqtt 客户端启动成功");
-            } catch (MqttException e) {
-                log.error("【mqtt异常】：mqtt 客户端连接失败，error = {}", e.getMessage(), e);
-            }
+            // host 为主机名，clientId 是连接 MQTT 的客户端 ID，MemoryPersistence 设置 clientId 的保存方式，默认是以内存方式保存
+            client = new MqttAsyncClient(mqttProperties.getHost(), mqttProperties.getClientId(), new MemoryPersistence());
+            // 设置回调函数
+            client.setCallback(mqttCallback);
+            log.info("【mqtt】：mqtt 客户端启动成功");
         }
     }
 
@@ -103,9 +93,9 @@ public class CustomMqttClient {
         }
         options = new MqttConnectOptions();
         options.setCleanSession(true);
-        options.setUserName(mqttProperties.getUserName());
-        options.setPassword(mqttProperties.getPassWord().toCharArray());
-        options.setConnectionTimeout(mqttProperties.getTimeOut());
+        options.setUserName(mqttProperties.getUsername());
+        options.setPassword(mqttProperties.getPassword().toCharArray());
+        options.setConnectionTimeout(mqttProperties.getTimeout());
         options.setKeepAliveInterval(mqttProperties.getKeepAlive());
         // 设置自动重新连接
         options.setAutomaticReconnect(true);
@@ -115,16 +105,12 @@ public class CustomMqttClient {
     /**
      * 功能描述: 断开与 mqtt 的连接
      */
-    public synchronized void disconnect() {
+    public synchronized void disconnect() throws MqttException {
         // 判断客户端是否 null，是否连接
         if (client != null && client.isConnected()) {
-            try {
-                IMqttToken token = client.disconnect();
-                // 等待完成断开连接
-                token.waitForCompletion();
-            } catch (MqttException e) {
-                log.error("【mqtt异常】：断开 mqtt 连接发生错误，message = {}", e.getMessage());
-            }
+            IMqttToken token = client.disconnect();
+            // 等待完成断开连接
+            token.waitForCompletion();
         }
         client = null;
     }
@@ -132,7 +118,7 @@ public class CustomMqttClient {
     /**
      * 功能描述: 断开连接，重连
      */
-    public synchronized void reconnect() {
+    public synchronized void reconnect() throws MqttException {
         disconnect();
         setOptions();
         createClient();

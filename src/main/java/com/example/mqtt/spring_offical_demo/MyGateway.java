@@ -1,6 +1,4 @@
-package com.cubegalaxy.mqtt.spring_offical_demo;
-
-import org.springframework.integration.annotation.MessagingGateway;
+package com.example.mqtt.spring_offical_demo;
 
 //@MessagingGateway(defaultRequestChannel = "mqttOutboundChannel")
 public interface MyGateway {

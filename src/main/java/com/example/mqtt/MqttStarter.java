@@ -1,4 +1,4 @@
-package com.cubegalaxy.mqtt;
+package com.example.mqtt;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

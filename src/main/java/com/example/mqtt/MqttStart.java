@@ -1,6 +1,7 @@
-package com.cubegalaxy.mqtt;
+package com.example.mqtt;
 
-import com.cubegalaxy.mqtt.client.CustomMqttClient;
+import com.example.mqtt.client.CustomMqttClient;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -24,7 +25,11 @@ public class MqttStart implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        mqttCustomerClient.connect();
+        try {
+            mqttCustomerClient.connect();
+        } catch (MqttException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 

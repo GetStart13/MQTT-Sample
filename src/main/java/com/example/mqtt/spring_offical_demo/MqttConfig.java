@@ -1,8 +1,7 @@
-package com.cubegalaxy.mqtt.spring_offical_demo;
+package com.example.mqtt.spring_offical_demo;
 
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.mqtt.core.DefaultMqttPahoClientFactory;

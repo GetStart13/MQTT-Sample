@@ -44,7 +44,7 @@ public class MqttService {
      *              Qos3：只分发一次，确保消息送达且只传递一次
      */
     public void subscribe(String topic, int qos) throws MqttException {
-        log.info("【mqtt】：订阅了主题 topic: {}, qos: {}", topic, qos);
+        log.info("【mqtt】：订阅主题 topic: {}, qos: {}", topic, qos);
         IMqttToken token = CustomMqttClient.getClient().subscribe(topic, qos);
         token.waitForCompletion();
     }
@@ -59,7 +59,7 @@ public class MqttService {
      *               Qos3：只分发一次，确保消息送达和只传递一次
      */
     public void subscribe(String[] topics, int[] qos) throws MqttException {
-        log.info("【mqtt】：订阅了主题 topics: {}", Arrays.toString(topics));
+        log.info("【mqtt】：订阅主题 topics: {}", Arrays.toString(topics));
         log.info("【mqtt】qos: {}", Arrays.toString(qos));
         IMqttToken token = CustomMqttClient.getClient().subscribe(topics, qos);
         token.waitForCompletion();

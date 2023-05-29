@@ -44,6 +44,9 @@ public class CustomMqttClient {
     private static MqttAsyncClient client;
 
     public static MqttAsyncClient getClient() {
+        if (!isConnected()) {
+            throw new NullPointerException("mqtt client 未连接!");
+        }
         return client;
     }
 
@@ -128,7 +131,7 @@ public class CustomMqttClient {
     /**
      * mqtt client 是否处于连接状态
      */
-    public boolean isConnected() {
+    public static boolean isConnected() {
         return client != null && client.isConnected();
     }
 }

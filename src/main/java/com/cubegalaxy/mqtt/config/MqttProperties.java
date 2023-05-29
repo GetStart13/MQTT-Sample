@@ -11,12 +11,12 @@ import org.springframework.context.annotation.PropertySource;
 @ConfigurationProperties(prefix = "mqtt")
 public class MqttProperties {
     /**
-     * 服务器地址url
+     * 服务器地址 url
      */
     private String host;
 
     /**
-     * 客户端唯一ID
+     * 客户端唯一 ID
      */
     private String clientId;
 

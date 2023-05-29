@@ -1,6 +1,6 @@
 package com.cubegalaxy.mqtt;
 
-import com.cubegalaxy.mqtt.client.MqttCustomerClient;
+import com.cubegalaxy.mqtt.client.CustomMqttClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -15,8 +15,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class MqttStart implements ApplicationRunner {
 
+    private CustomMqttClient mqttCustomerClient;
+
     @Autowired
-    private MqttCustomerClient mqttCustomerClient;
+    public void setMqttCustomerClient(CustomMqttClient mqttCustomerClient) {
+        this.mqttCustomerClient = mqttCustomerClient;
+    }
 
     @Override
     public void run(ApplicationArguments args) {

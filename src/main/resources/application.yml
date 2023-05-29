@@ -6,7 +6,7 @@ mqtt:
   clientId: ${random.int}  # MQTT-连接服务器默认客户端 ID
   userName: rabbitmq   # MQTT-用户名
   passWord: 123456 # MQTT-密码
-  default-topic: amq.topic # MQTT-默认的消息推送主题，实际可在调用接口时指定
+  default-topic: amq.topic # MQTT-默认的消息推送主题，实际可在调用接口时指定，主题遵循通配符，通过通配符可以匹配多个主题
   timeOut: 1000 # 连接超时
   keepAlive: 30   # 设置会话心跳时间
   clearSession: true  # 清除会话(设置为false,断开连接，重连后使用原来的会话 保留订阅的主题，能接收离线期间的消息)

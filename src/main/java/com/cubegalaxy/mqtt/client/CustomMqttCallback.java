@@ -3,21 +3,17 @@ package com.cubegalaxy.mqtt.client;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
-import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 
 /**
- * 功能描述: 消费监听
+ * 功能描述: 消息回调
+ * <br> 一个 mqtt 客户端只有一个回调函数，因此也可以做为一个 bean 注入
  */
 @Slf4j
 @Component
-public class MqttCallback implements MqttCallbackExtended {
-    @Resource
-    private ApplicationContext context;
+public class CustomMqttCallback implements MqttCallbackExtended {
 
     @Override
     public void connectionLost(Throwable throwable) {
@@ -38,27 +34,21 @@ public class MqttCallback implements MqttCallbackExtended {
      */
     @Override
     public void deliveryComplete(IMqttDeliveryToken token) {
-        log.info("【mqtt】交付完成：{}", token.isComplete());
+        log.info("【mqtt】交付完成: {}", token.isComplete());
     }
 
     /**
-     * 功能描述: 监听mqtt连接消息
+     * 功能描述: 连接完成后执行
      *
      * @param reconnect 是否重连
      * @param serverUrl 服务地址
      */
     @Override
     public void connectComplete(boolean reconnect, String serverUrl) {
-        try {
-            log.info("mqtt已经连接！！");
-            //连接后，可以在此做初始化事件，或订阅
-            context.getBean(MqttService.class)
-                    .subscribe(MqttCustomerClient.client);
-            log.info("是否重连 " + reconnect);
-            log.info("服务端 url: " + serverUrl);
-        } catch (MqttException e) {
-            e.printStackTrace();
-        }
+        log.info("mqtt 已经连接");
+        log.info("是否重连: " + reconnect);
+        log.info("服务端 url: " + serverUrl);
+
     }
 }
 

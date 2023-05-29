@@ -1,8 +1,8 @@
 package com.cubegalaxy.mqtt.client;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,21 +11,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping("/mqtt")
 public class MqttController {
-    @Autowired
     private MqttService mqttService;
 
-    @Value("${mqtt.default-topic:default.topic}")
-    private String topic;
+    @Autowired
+    public void setMqttService(MqttService mqttService) {
+        this.mqttService = mqttService;
+    }
 
     @PostMapping("/publish")
     @ResponseBody
     public synchronized void publishMqttMsg(@RequestBody Map<String, Object> mqttMsg) {
-        System.out.println(mqttMsg);
-        long productId = (Integer) mqttMsg.get("productId");
-        String deviceNum = (String) mqttMsg.get("deviceNum");
-        mqttService.publishInfo(productId, deviceNum);
+        log.info("receive publish message: {}", mqttMsg);
+        mqttService.publish(mqttMsg);
     }
 }
